@@ -318,7 +318,15 @@ impl BlockChain {
 			best_block.total_difficulty = bc.block_details(&best_block_hash).unwrap().total_difficulty;
 			best_block.hash = best_block_hash;
 		}
-
+		//validate
+		info!("Validating blockchain");
+		for i in 1 .. bc.best_block.read().unwrap().number {
+			let header = BlockView::new(&bc.block(&bc.block_hash(i).unwrap()).unwrap()).header();
+			if header.parent_hash != bc.block_hash(i - 1).unwrap() {
+				warn!("Mismatching parent for block {}", i);
+			}
+		}
+		info!("Done");
 		bc
 	}
 
