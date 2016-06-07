@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["get_info","Return details about specific instruction"]]});
